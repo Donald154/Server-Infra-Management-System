@@ -1,4 +1,4 @@
-public class InputValidator {
+public class InputValidator{
 
     //Methods
     // Checks that the server ID is a positive number

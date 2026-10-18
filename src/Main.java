@@ -2,13 +2,13 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-
+    //Attributes
     private Scanner scanner;
     private ServerManager serverManager;
     private InputValidator validator;
     private FileHandler fileHandler;
 
-    // Creates the objects needed by the application
+    // Instantiating the objects
     public Main() {
         scanner = new Scanner(System.in);
         serverManager = new ServerManager();
@@ -16,20 +16,19 @@ public class Main {
         fileHandler = new FileHandler();
     }
 
-    // Standard Java application entry point
     public static void main(String[] args) {
         Main application = new Main();
         application.run();
     }
 
     // Runs the program until the user chooses Exit
-    public int run() {
+    public void run() {
 
         boolean running = true;
 
-        System.out.println("=========================================");
+        System.out.println("*****************************************");
         System.out.println(" Server Infrastructure Management System");
-        System.out.println("=========================================");
+        System.out.println("*****************************************");
 
         while (running) {
 
@@ -73,14 +72,13 @@ public class Main {
         scanner.close();
 
         System.out.println("\nExiting Server Infrastructure Management System.");
-        return 0;
     }
 
-    // Displays the main menu and returns the user's selection
+    // Displays the main menu
     private int displayMenu() {
 
         System.out.println("\n=========================================");
-        System.out.println("              Main Menu");
+        System.out.println("             SIMS Main Menu");
         System.out.println("=========================================");
         System.out.println("1. Add Server");
         System.out.println("2. Load Servers From File");
@@ -311,8 +309,7 @@ public class Main {
                 serverManager.getServerCount();
 
         if (totalServers == 0) {
-            return "\nNo servers are currently stored.\n"
-                    + "Online Server Percentage: 0.00%";
+            return "\nNo servers are currently stored.\n" + "Online Server Percentage: 0.00%";
         }
 
         int onlineServers = 0;

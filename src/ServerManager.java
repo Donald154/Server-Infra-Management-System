@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class ServerManager {
+public class ServerManager{
 
     private ArrayList<Server> servers;
 
