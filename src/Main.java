@@ -170,11 +170,7 @@ public class Main {
             }
         }
 
-        return "File loading complete. "
-                + addedCount
-                + " server(s) added, "
-                + skippedCount
-                + " duplicate server(s) skipped.";
+        return "File loading complete. " + addedCount + " server(s) added, " + skippedCount + " duplicate server(s) skipped.";
     }
 
     // Displays all currently stored servers
@@ -324,12 +320,7 @@ public class Main {
         double percentage =
                 serverManager.calculateOnlinePercentage();
 
-        return String.format(
-                "\nOnline Servers: %d of %d%n"
-                        + "Online Server Percentage: %.2f%%",
-                onlineServers,
-                totalServers,
-                percentage
+        return String.format("\nOnline Servers: %d of %d%n" + "Online Server Percentage: %.2f%%", onlineServers, totalServers, percentage
         );
     }
 
@@ -369,15 +360,11 @@ public class Main {
                     return value;
                 }
 
-                System.out.println(
-                        "Value must be greater than 0."
-                );
+                System.out.println("Value must be greater than 0.");
 
             } catch (NumberFormatException e) {
 
-                System.out.println(
-                        "Invalid input. Please enter a numeric value."
-                );
+                System.out.println("Invalid input. Please enter a numeric value.");
             }
         }
     }
@@ -394,9 +381,7 @@ public class Main {
                 return hostname;
             }
 
-            System.out.println(
-                    "Hostname cannot be blank."
-            );
+            System.out.println("Hostname cannot be blank.");
         }
     }
 
@@ -405,9 +390,7 @@ public class Main {
 
         while (true) {
 
-            System.out.print("Enter Operating System: ");
-            String operatingSystem =
-                    scanner.nextLine().trim();
+            System.out.print("Enter Operating System: ");String operatingSystem = scanner.nextLine().trim();
 
             if (validator.isValidOperatingSystem(
                     operatingSystem)) {
@@ -415,9 +398,7 @@ public class Main {
                 return operatingSystem;
             }
 
-            System.out.println(
-                    "Operating system cannot be blank."
-            );
+            System.out.println("Operating system cannot be blank.");
         }
     }
 
@@ -427,17 +408,13 @@ public class Main {
         while (true) {
 
             double memory =
-                    readPositiveDouble(
-                            "Enter Memory in GB: "
-                    );
+                    readPositiveDouble("Enter Memory in GB: ");
 
             if (validator.isValidMemory(memory)) {
                 return memory;
             }
 
-            System.out.println(
-                    "Memory must be greater than 0."
-            );
+            System.out.println("Memory must be greater than 0.");
         }
     }
 
@@ -447,17 +424,13 @@ public class Main {
         while (true) {
 
             double storage =
-                    readPositiveDouble(
-                            "Enter Storage in GB: "
-                    );
+                    readPositiveDouble("Enter Storage in GB: ");
 
             if (validator.isValidStorage(storage)) {
                 return storage;
             }
 
-            System.out.println(
-                    "Storage must be greater than 0."
-            );
+            System.out.println("Storage must be greater than 0.");
         }
     }
 
@@ -467,16 +440,13 @@ public class Main {
         while (true) {
 
             System.out.print("Enter IP Address: ");
-            String ipAddress =
-                    scanner.nextLine().trim();
+            String ipAddress = scanner.nextLine().trim();
 
             if (validator.isValidIpAddress(ipAddress)) {
                 return ipAddress;
             }
 
-            System.out.println(
-                    "Invalid IPv4 address. Example: 192.168.1.10"
-            );
+            System.out.println("Invalid IPv4 address. Example: 192.168.1.10");
         }
     }
 
@@ -485,23 +455,16 @@ public class Main {
 
         while (true) {
 
-            System.out.print(
-                    "Is the server online? (yes/no): "
-            );
+            System.out.print("Is the server online? (yes/no): ");
 
-            String status =
-                    scanner.nextLine().trim();
+            String status = scanner.nextLine().trim();
 
             if (validator.isValidOnlineStatus(status)) {
 
-                return validator.convertOnlineStatus(
-                        status
-                );
+                return validator.convertOnlineStatus(status);
             }
 
-            System.out.println(
-                    "Invalid input. Enter yes, no, true, or false."
-            );
+            System.out.println("Invalid input. Enter yes, no, true, or false.");
         }
     }
 }
