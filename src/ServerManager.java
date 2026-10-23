@@ -42,15 +42,22 @@ public class ServerManager{
         return null;
     }
 
-    // Updates the fields of an existing server
-    public boolean updateServer(int serverId, Server updatedServer) {
+    // Updates all fields of an existing server
+    public boolean updateServer(int currentServerId, Server updatedServer) {
 
-        Server existingServer = findServerById(serverId);
+        Server existingServer = findServerById(currentServerId);
 
         if (existingServer == null || updatedServer == null) {
             return false;
         }
 
+        // Prevent duplicate IDs when changing the server ID
+        if (currentServerId != updatedServer.getServerId()
+                && findServerById(updatedServer.getServerId()) != null) {
+            return false;
+        }
+
+        existingServer.setServerId(updatedServer.getServerId());
         existingServer.setHostname(updatedServer.getHostname());
         existingServer.setOperatingSystem(updatedServer.getOperatingSystem());
         existingServer.setMemoryGB(updatedServer.getMemoryGB());

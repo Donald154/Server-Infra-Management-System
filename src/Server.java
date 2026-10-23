@@ -1,6 +1,6 @@
-//
 public class Server {
-    //Attributes
+
+    // Attributes
     private int serverId;
     private String hostname;
     private String operatingSystem;
@@ -9,8 +9,10 @@ public class Server {
     private String ipAddress;
     private boolean isOnline;
 
-    //Constructor
-    public Server(int serverId, String hostname, String operatingSystem, double memoryGB, double storageGB, String ipAddress, boolean isOnline){
+    // Constructor
+    public Server(int serverId, String hostname, String operatingSystem,
+                  double memoryGB, double storageGB,
+                  String ipAddress, boolean isOnline) {
 
         this.serverId = serverId;
         this.hostname = hostname;
@@ -21,7 +23,7 @@ public class Server {
         this.isOnline = isOnline;
     }
 
-    //Getters & Setters
+    // Getters & Setters
     public int getServerId() {
         return serverId;
     }
@@ -50,6 +52,12 @@ public class Server {
         return isOnline;
     }
 
+
+    public int setServerId(int serverId) {
+        this.serverId = serverId;
+        return this.serverId;
+    }
+
     public String setHostname(String hostname) {
         this.hostname = hostname;
         return this.hostname;
@@ -75,19 +83,21 @@ public class Server {
         return this.ipAddress;
     }
 
+    // Updates the online status
     public boolean setOnline(boolean online) {
-        isOnline = online;
-        return isOnline;
+        this.isOnline = online;
+        return this.isOnline;
     }
-    //ToString method
+
+    // Returns all server information in a readable format
     @Override
-    public String toString(){
-            return "Server ID: " + serverId +
-                    ", Hostname: " + hostname +
-                    ", OS: " + operatingSystem +
-                    ", Memory: " + memoryGB + " GB" +
-                    ", Storage: " + storageGB + " GB" +
-                    ", IP Address: " + ipAddress +
-                    ", Online: " + isOnline;
-        }
+    public String toString() {
+        return "Server ID: " + serverId +
+                ", Hostname: " + hostname +
+                ", OS: " + operatingSystem +
+                ", Memory: " + memoryGB + " GB" +
+                ", Storage: " + storageGB + " GB" +
+                ", IP Address: " + ipAddress +
+                ", Online: " + isOnline;
+    }
 }

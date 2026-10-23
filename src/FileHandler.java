@@ -20,7 +20,8 @@ public class FileHandler {
         }
 
         String cleanedPath = filePath.trim();
-        //Allows for file paths with quotes
+
+        // Allows for file paths copied with quotation marks
         if (cleanedPath.startsWith("\"") && cleanedPath.endsWith("\"")) {
             cleanedPath = cleanedPath.substring(1, cleanedPath.length() - 1);
         }
@@ -74,28 +75,57 @@ public class FileHandler {
                 }
 
                 try {
-                    int serverId = Integer.parseInt(parts[0].trim());
-                    String hostname = parts[1].trim();
-                    String operatingSystem = parts[2].trim();
-                    double memoryGB = Double.parseDouble(parts[3].trim());
-                    double storageGB = Double.parseDouble(parts[4].trim());
-                    String ipAddress = parts[5].trim();
-                    String onlineStatus = parts[6].trim();
 
-                    // Validate all values before creating the Server object
+                    int serverId =
+                            Integer.parseInt(
+                                    parts[0].trim()
+                            );
+
+                    String hostname =
+                            parts[1].trim();
+
+                    String operatingSystem =
+                            parts[2].trim();
+
+                    double memoryGB =
+                            Double.parseDouble(
+                                    parts[3].trim()
+                            );
+
+                    double storageGB =
+                            Double.parseDouble(
+                                    parts[4].trim()
+                            );
+
+                    String ipAddress =
+                            parts[5].trim();
+
+                    String onlineStatus =
+                            parts[6].trim();
+
+                    // Validate the server values
                     if (!validator.isValidServerId(serverId)
                             || !validator.isValidHostname(hostname)
-                            || !validator.isValidOperatingSystem(operatingSystem)
+                            || !validator.isValidOperatingSystem(
+                            operatingSystem
+                    )
                             || !validator.isValidMemory(memoryGB)
                             || !validator.isValidStorage(storageGB)
-                            || !validator.isValidIpAddress(ipAddress)
-                            || !validator.isValidOnlineStatus(onlineStatus)) {
+                            || !validator.isValidIpAddress(ipAddress)) {
 
                         continue;
                     }
 
+                    // Text files must use true or false
+                    if (!onlineStatus.equalsIgnoreCase("true")
+                            && !onlineStatus.equalsIgnoreCase("false")) {
+
+                        continue;
+                    }
+
+                    // Converts the text value into a boolean
                     boolean isOnline =
-                            validator.convertOnlineStatus(onlineStatus);
+                            Boolean.parseBoolean(onlineStatus);
 
                     Server server = new Server(
                             serverId,
@@ -110,12 +140,14 @@ public class FileHandler {
                     loadedServers.add(server);
 
                 } catch (NumberFormatException e) {
+
                     // Skip records containing invalid numeric values
                     continue;
                 }
             }
 
         } catch (FileNotFoundException e) {
+
             return loadedServers;
         }
 

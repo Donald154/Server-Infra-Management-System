@@ -2,7 +2,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    //Attributes
+
+    // Attributes
     private Scanner scanner;
     private ServerManager serverManager;
     private InputValidator validator;
@@ -81,7 +82,7 @@ public class Main {
         System.out.println("             SIMS Main Menu");
         System.out.println("=========================================");
         System.out.println("1. Add Server");
-        System.out.println("2. Load Servers From File");
+        System.out.println("2. Import Servers From File");
         System.out.println("3. View All Servers");
         System.out.println("4. Update Server");
         System.out.println("5. Remove Server");
@@ -103,7 +104,8 @@ public class Main {
             serverId = readInteger("Enter Server ID: ");
 
             if (!validator.isValidServerId(serverId)) {
-                System.out.println("Server ID must be greater than 0.");
+                System.out.println("Server ID must be greater than 0."
+                );
                 continue;
             }
 
@@ -151,8 +153,7 @@ public class Main {
             return "File could not be found. Please verify the path and try again.";
         }
 
-        ArrayList<Server> loadedServers =
-                fileHandler.loadServers(filePath);
+        ArrayList<Server> loadedServers = fileHandler.loadServers(filePath);
 
         if (loadedServers.isEmpty()) {
             return "No valid server records were found in the file.";
@@ -170,14 +171,17 @@ public class Main {
             }
         }
 
-        return "File loading complete. " + addedCount + " server(s) added, " + skippedCount + " duplicate server(s) skipped.";
+        return "File loading complete. "
+                + addedCount
+                + " server(s) added, "
+                + skippedCount
+                + " duplicate server(s) skipped.";
     }
 
     // Displays all currently stored servers
     private String viewServers() {
 
-        ArrayList<Server> servers =
-                serverManager.getAllServers();
+        ArrayList<Server> servers = serverManager.getAllServers();
 
         if (servers.isEmpty()) {
             return "\nNo servers are currently stored.";
@@ -191,8 +195,7 @@ public class Main {
             output.append(server).append("\n");
         }
 
-        output.append("\nTotal Servers: ")
-                .append(serverManager.getServerCount());
+        output.append("\nTotal Servers: ").append(serverManager.getServerCount());
 
         return output.toString();
     }
@@ -202,11 +205,9 @@ public class Main {
 
         System.out.println("\n--- Update Server ---");
 
-        int serverId =
-                readInteger("Enter the Server ID to update: ");
+        int serverId = readInteger("Enter the Server ID to update: ");
 
-        Server server =
-                serverManager.findServerById(serverId);
+        Server server = serverManager.findServerById(serverId);
 
         if (server == null) {
             return "Server ID " + serverId + " was not found.";
@@ -216,45 +217,67 @@ public class Main {
         System.out.println(server);
 
         System.out.println("\nSelect the field to update:");
-        System.out.println("1. Hostname");
-        System.out.println("2. Operating System");
-        System.out.println("3. Memory");
-        System.out.println("4. Storage");
-        System.out.println("5. IP Address");
-        System.out.println("6. Online Status");
-        System.out.println("7. Cancel");
+        System.out.println("1. Server ID");
+        System.out.println("2. Hostname");
+        System.out.println("3. Operating System");
+        System.out.println("4. Memory");
+        System.out.println("5. Storage");
+        System.out.println("6. IP Address");
+        System.out.println("7. Online Status");
+        System.out.println("8. Cancel");
 
         int choice = readInteger("Select an option: ");
 
         switch (choice) {
 
             case 1:
+                int newServerId =
+                        readInteger("Enter New Server ID: ");
+
+                if (!validator.isValidServerId(newServerId)) {
+                    return "Server ID must be greater than 0.";
+                }
+
+                Server existingServer =
+                        serverManager.findServerById(newServerId);
+
+                if (existingServer != null
+                        && existingServer != server) {
+
+                    return "That Server ID already exists.";
+                }
+
+                server.setServerId(newServerId);
+
+                return "Server ID updated successfully.";
+
+            case 2:
                 server.setHostname(readValidHostname());
                 return "Hostname updated successfully.";
 
-            case 2:
+            case 3:
                 server.setOperatingSystem(
                         readValidOperatingSystem()
                 );
                 return "Operating system updated successfully.";
 
-            case 3:
+            case 4:
                 server.setMemoryGB(readValidMemory());
                 return "Memory updated successfully.";
 
-            case 4:
+            case 5:
                 server.setStorageGB(readValidStorage());
                 return "Storage updated successfully.";
 
-            case 5:
+            case 6:
                 server.setIpAddress(readValidIpAddress());
                 return "IP address updated successfully.";
 
-            case 6:
+            case 7:
                 server.setOnline(readOnlineStatus());
                 return "Online status updated successfully.";
 
-            case 7:
+            case 8:
                 return "Update canceled.";
 
             default:
@@ -267,11 +290,9 @@ public class Main {
 
         System.out.println("\n--- Remove Server ---");
 
-        int serverId =
-                readInteger("Enter the Server ID to remove: ");
+        int serverId = readInteger("Enter the Server ID to remove: ");
 
-        Server server =
-                serverManager.findServerById(serverId);
+        Server server = serverManager.findServerById(serverId);
 
         if (server == null) {
             return "Server ID " + serverId + " was not found.";
@@ -280,11 +301,22 @@ public class Main {
         System.out.println("\nServer Found:");
         System.out.println(server);
 
-        System.out.print("Are you sure you want to remove this server? (y/n): ");
+        String confirmation;
 
-        String confirmation = scanner.nextLine().trim().toLowerCase();
+        while (true) {
 
-        if (!confirmation.equals("y")) {
+            System.out.print("Are you sure you want to remove this server? (Y/N): ");
+
+            confirmation = scanner.nextLine().trim().toLowerCase();
+
+            if (confirmation.equals("y") || confirmation.equals("n")) {
+                break;
+            }
+
+            System.out.println("Invalid input. Please enter Y or N.");
+        }
+
+        if (confirmation.equals("n")) {
             return "Server removal canceled.";
         }
 
@@ -298,10 +330,10 @@ public class Main {
     // Calculates and formats the online server percentage
     private String calculateOnlinePercentage() {
 
-        int totalServers =
-                serverManager.getServerCount();
+        int totalServers = serverManager.getServerCount();
 
         if (totalServers == 0) {
+
             return "\nNo servers are currently stored.\n" + "Online Server Percentage: 0.00%";
         }
 
@@ -314,10 +346,10 @@ public class Main {
             }
         }
 
-        double percentage =
-                serverManager.calculateOnlinePercentage();
+        double percentage = serverManager.calculateOnlinePercentage();
 
-        return String.format("\nOnline Servers: %d of %d%n" + "Online Server Percentage: %.2f%%", onlineServers, totalServers, percentage
+        return String.format(
+                "\nOnline Servers: %d of %d%n" + "Online Server Percentage: %.2f%%", onlineServers, totalServers, percentage
         );
     }
 
@@ -327,15 +359,16 @@ public class Main {
         while (true) {
 
             System.out.print(prompt);
+
             String input = scanner.nextLine().trim();
 
             try {
+
                 return Integer.parseInt(input);
 
             } catch (NumberFormatException e) {
-                System.out.println(
-                        "Invalid input. Please enter a whole number."
-                );
+
+                System.out.println("Invalid input. Please enter a whole number.");
             }
         }
     }
@@ -346,12 +379,12 @@ public class Main {
         while (true) {
 
             System.out.print(prompt);
+
             String input = scanner.nextLine().trim();
 
             try {
 
-                double value =
-                        Double.parseDouble(input);
+                double value = Double.parseDouble(input);
 
                 if (value > 0) {
                     return value;
@@ -372,6 +405,7 @@ public class Main {
         while (true) {
 
             System.out.print("Enter Hostname: ");
+
             String hostname = scanner.nextLine().trim();
 
             if (validator.isValidHostname(hostname)) {
@@ -387,10 +421,11 @@ public class Main {
 
         while (true) {
 
-            System.out.print("Enter Operating System: ");String operatingSystem = scanner.nextLine().trim();
+            System.out.print("Enter Operating System: ");
 
-            if (validator.isValidOperatingSystem(
-                    operatingSystem)) {
+            String operatingSystem = scanner.nextLine().trim();
+
+            if (validator.isValidOperatingSystem(operatingSystem)) {
 
                 return operatingSystem;
             }
@@ -404,8 +439,7 @@ public class Main {
 
         while (true) {
 
-            double memory =
-                    readPositiveDouble("Enter Memory in GB: ");
+            double memory = readPositiveDouble("Enter Memory in GB: ");
 
             if (validator.isValidMemory(memory)) {
                 return memory;
@@ -420,8 +454,7 @@ public class Main {
 
         while (true) {
 
-            double storage =
-                    readPositiveDouble("Enter Storage in GB: ");
+            double storage = readPositiveDouble("Enter Storage in GB: ");
 
             if (validator.isValidStorage(storage)) {
                 return storage;
@@ -437,6 +470,7 @@ public class Main {
         while (true) {
 
             System.out.print("Enter IP Address: ");
+
             String ipAddress = scanner.nextLine().trim();
 
             if (validator.isValidIpAddress(ipAddress)) {
@@ -447,7 +481,7 @@ public class Main {
         }
     }
 
-    // Prompts until a valid online status is entered
+    // Prompts until the user enters Y or N
     private boolean readOnlineStatus() {
 
         while (true) {
@@ -457,6 +491,7 @@ public class Main {
             String status = scanner.nextLine().trim();
 
             if (validator.isValidOnlineStatus(status)) {
+
                 return validator.convertOnlineStatus(status);
             }
 
