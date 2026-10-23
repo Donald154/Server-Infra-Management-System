@@ -57,20 +57,23 @@ public class InputValidator{
     }
 
     // Accepts true, false, yes, or no as valid online status input
+    // Accepts only Y, y, N, or n
     public boolean isValidOnlineStatus(String status) {
+
         if (status == null) {
             return false;
         }
 
         String value = status.trim().toLowerCase();
 
-        return value.equals("true") || value.equals("false") || value.equals("yes") || value.equals("no");
+        return value.equals("y") || value.equals("n");
     }
 
-    // Converts yes or true to true and no or false to false
+    // Converts Y/y to true and N/n to false
     public boolean convertOnlineStatus(String status) {
+
         String value = status.trim().toLowerCase();
 
-        return value.equals("true") || value.equals("yes");
+        return value.equals("y");
     }
 }

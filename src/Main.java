@@ -280,14 +280,11 @@ public class Main {
         System.out.println("\nServer Found:");
         System.out.println(server);
 
-        System.out.print(
-                "Are you sure you want to remove this server? (yes/no): "
-        );
+        System.out.print("Are you sure you want to remove this server? (y/n): ");
 
-        String confirmation =
-                scanner.nextLine().trim().toLowerCase();
+        String confirmation = scanner.nextLine().trim().toLowerCase();
 
-        if (!confirmation.equals("yes")) {
+        if (!confirmation.equals("y")) {
             return "Server removal canceled.";
         }
 
@@ -455,16 +452,15 @@ public class Main {
 
         while (true) {
 
-            System.out.print("Is the server online? (yes/no): ");
+            System.out.print("Is the server online? (Y/N): ");
 
             String status = scanner.nextLine().trim();
 
             if (validator.isValidOnlineStatus(status)) {
-
                 return validator.convertOnlineStatus(status);
             }
 
-            System.out.println("Invalid input. Enter yes, no, true, or false.");
+            System.out.println("Invalid input. Please enter Y or N.");
         }
     }
 }
