@@ -9,9 +9,14 @@ public class Main {
     private InputValidator validator;
     private FileHandler fileHandler;
 
-    // Instantiating the objects
+    // Creates the application
     public Main() {
-        scanner = new Scanner(System.in);
+        this(new Scanner(System.in));
+    }
+
+    // Allows input to be supplied during JUnit testing
+    public Main(Scanner scanner) {
+        this.scanner = scanner;
         serverManager = new ServerManager();
         validator = new InputValidator();
         fileHandler = new FileHandler();
